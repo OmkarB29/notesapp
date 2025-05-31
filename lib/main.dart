@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const NotesApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NotesApp extends StatelessWidget {
+  const NotesApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Notes App',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      title: 'Creative Notes App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
+      ),
+      home: const NotesHomePage(),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
     );
   }
 }

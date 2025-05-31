@@ -1,20 +1,49 @@
+
 import 'package:flutter/material.dart';
-import '../models/note.dart';
 
-class NoteDetailPage extends StatelessWidget {
-  final Note note;
+class NoteCardWidget extends StatelessWidget {
+  final String note;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+  final int colorIndex;
 
-  const NoteDetailPage({super.key, required this.note});
+  const NoteCardWidget({
+    super.key,
+    required this.note,
+    required this.onEdit,
+    required this.onDelete,
+    required this.colorIndex,
+  });
+
+  Color _noteCardColor() {
+    final pastelColors = [
+      Colors.amber[100],
+      Colors.blue[100],
+      Colors.green[100],
+      Colors.purple[100],
+    ];
+    return pastelColors[colorIndex % pastelColors.length]!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Note Details')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          note.text,
-          style: const TextStyle(fontSize: 18),
+    return Card(
+      color: _noteCardColor(),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: ListTile(
+        title: Text(note),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.blueAccent),
+              onPressed: onEdit,
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: onDelete,
+            ),
+          ],
         ),
       ),
     );

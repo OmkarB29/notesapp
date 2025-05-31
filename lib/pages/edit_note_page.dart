@@ -1,22 +1,26 @@
-import 'package:flutter/material.dart';
-import '../models/note.dart';
 
-class EditNotePage extends StatelessWidget {
-  final Note note;
-  EditNotePage({super.key, required this.note});
-  final TextEditingController _controller = TextEditingController();
+import 'package:flutter/material.dart';
+
+class EditNotePage extends StatefulWidget {
+  final String note;
+
+  const EditNotePage({super.key, required this.note});
+
+  @override
+  State<EditNotePage> createState() => _EditNotePageState();
+}
+
+class _EditNotePageState extends State<EditNotePage> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.note);
+  }
 
   @override
   Widget build(BuildContext context) {
-    _controller.text = note.text;
-
-    void _updateNote() {
-      final updatedText = _controller.text.trim();
-      if (updatedText.isNotEmpty) {
-        Navigator.pop(context, Note(text: updatedText));
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Note')),
       body: Padding(
@@ -25,12 +29,14 @@ class EditNotePage extends StatelessWidget {
           children: [
             TextField(
               controller: _controller,
-              maxLines: 5,
               decoration: const InputDecoration(hintText: 'Update your note'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _updateNote,
+              onPressed: () {
+                final updated = _controller.text.trim();
+                if (updated.isNotEmpty) Navigator.pop(context, updated);
+              },
               child: const Text('Update'),
             ),
           ],

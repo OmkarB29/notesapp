@@ -1,16 +1,15 @@
+
 import 'package:flutter/material.dart';
-import '../models/note.dart';
 
-class AddNotePage extends StatelessWidget {
-  AddNotePage({super.key});
+class AddNotePage extends StatefulWidget {
+  const AddNotePage({super.key});
+
+  @override
+  State<AddNotePage> createState() => _AddNotePageState();
+}
+
+class _AddNotePageState extends State<AddNotePage> {
   final TextEditingController _controller = TextEditingController();
-
-  void _saveNote(BuildContext context) {
-    final text = _controller.text.trim();
-    if (text.isNotEmpty) {
-      Navigator.pop(context, Note(text: text));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +21,15 @@ class AddNotePage extends StatelessWidget {
           children: [
             TextField(
               controller: _controller,
-              maxLines: 5,
+              autofocus: true,
               decoration: const InputDecoration(hintText: 'Enter your note'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => _saveNote(context),
+              onPressed: () {
+                final note = _controller.text.trim();
+                if (note.isNotEmpty) Navigator.pop(context, note);
+              },
               child: const Text('Save'),
             ),
           ],
